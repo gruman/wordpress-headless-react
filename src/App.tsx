@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { Container, ListGroup } from 'react-bootstrap';
-
 import axios from 'axios';
 
 interface Post {
@@ -11,9 +8,17 @@ interface Post {
   id: number;
 }
 
+interface Page {
+  title: string;
+  content: string;
+}
+
 function App() {
 
   const [posts, setPosts] = useState<Post[]>();
+  const [page, setPage] = useState<Page>();
+
+
   useEffect(() => {
     axios.get("https://wordpress.matthewgruman.com/wp-json/wp/v2/posts")
       .then(results => {
@@ -26,7 +31,6 @@ function App() {
           }
           newPosts.push(newPost);
         }
-        console.log(newPosts)
         setPosts(newPosts)
       })
       .catch(err => {
@@ -34,24 +38,56 @@ function App() {
       })
   }, [])
 
+  useEffect(() => {
+    axios.get("https://wordpress.matthewgruman.com/wp-json/wp/v2/pages/2")
+      .then(results => {
+        const newPage : Page = {
+          title: results.data.title.rendered,
+          content: results.data.content.rendered
+        }
+        setPage(newPage)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, [])
+
+  useEffect(() => {
+    axios.get("https://wordpress.matthewgruman.com/wp-json/wp/v2/page/1")
+      .then(results => {
+        const newPage : Page = {
+          title: results.data[0].title.rendered,
+          content: results.data[0].content.rendered
+        }
+        setPage(newPage);
+        console.log(newPage)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, [])
+
   return (
-    <Container>
-      <h1>Headless Wordpress</h1>
+    <div>
+      <h1>Headless Wordpress with React</h1>
       <p>by <a href="https://matthewgruman.com">Matthew Gruman</a></p>
+
+      <h3>{page && page.title}</h3>
+      <div dangerouslySetInnerHTML={page && { __html: page.content }} />
       <h2>Posts</h2>
-      <ListGroup>
+      <ul>
         {
           posts &&
           posts.map(item => {
             return (
-              <ListGroup.Item key={item.id}>
+              <li key={item.id}>
                 <a href={item.link}>{item.title}</a>
-              </ListGroup.Item>
+              </li>
             )
           })
         }
-      </ListGroup>
-    </Container>
+      </ul>
+    </div>
   );
 }
 
