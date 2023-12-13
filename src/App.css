@@ -9,6 +9,10 @@ body * {
   margin: 0 auto;
 }
 
+a{
+  font-weight: 700;
+}
+
 h1 {
   margin-bottom: -0.5rem;
 }
