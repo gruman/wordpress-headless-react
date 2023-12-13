@@ -75,11 +75,9 @@ function App() {
   // Render the component
   return (
     <div className="container">
-      <h1>Headless Wordpress with React and Typescript</h1>
+      <h1>{page && page.title}</h1>
       <p>by <a href="https://matthewgruman.com">Matthew Gruman</a></p>
 
-      {/* Display the title and content of the retrieved page */}
-      <h2>{page && page.title}</h2>
       <div dangerouslySetInnerHTML={page && { __html: page.content }} />
 
       {/* Display the list of retrieved posts */}
