@@ -3,11 +3,11 @@ body * {
   font-family: "Merriweather", Georgia, 'Times New Roman', Times, serif;
   color: #111;
 }
-
+/* 
 .container {
   max-width: 600px;
   margin: 0 auto;
-}
+} */
 
 h1 {
   margin-bottom: -0.5rem;
