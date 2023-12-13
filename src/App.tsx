@@ -84,6 +84,7 @@ function App() {
 
       {/* Display the list of retrieved posts */}
       <h2>Posts</h2>
+      <p>This is a mapping of my latest posts.</p>
       <ul>
         {
           posts &&
